@@ -1,7 +1,7 @@
 <%- include("partials/header.ejs") %>
 <div id="maincont">
 <div class="container d-flex flex-wrap justify-content-center" style=" margin-bottom: 15px;">
-    <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
+    <a href="/index" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
     
       <span class="fs-4">All Items</span>
     </a>
@@ -9,78 +9,37 @@
       <input type="search" class="form-control" placeholder="Search..." aria-label="Search" >
     </form>
 </div>
-<div class="itemcontainer">
-    <div class="image_container">
-         <div>
-            <img src="https://livpure.com/cdn/shop/products/livpure-coolers-multicool-mini-desert-cooler-36534282420377.png?v=1680248951&width=713" width="300px" height="300px">
-            <p> Price : Rs 1000</p>
-         </div>
-       
-    </div>
-    <div class="inner_container">
-        <div style="text-align: center;">
-            <h2 style="text-align: center; font-size: 4rem;">Title</h3>
-            <div class="description_container">
-                <h3>Product Details</h3>
-                <p>Product : </p>
-                <ul>
-                    <li>Seller : Manas Sandip Jungade</li>
-                    <li>Contact No: 8855043347</li>
-                    <li>Product Used: 8 Months </li>
-                </ul>
+<% if (locals.products) { %>
+    <% products.forEach(element => { %>
+        <div class="itemcontainer prod_container">
+            <div class="image_container">
+                 <div>
+                    
+                    <img src=<%= element.image %> class="prod_img">
+                    <p> Price : Rs <%= element.price %></p>
+                 </div>
+               
             </div>
+            <div class="inner_container">
+                <div style="text-align: center;">
+                    <h2 style="text-align: center; font-size: 4rem;"><%= element.title %></h3>
+                    <div class="description_container">
+                        <h3>Product Details</h3>
+                        <p><%= element.description%> </p>
+                        <ul>
+                            <li>Seller : <%= user.name %></li>
+                            <li>Contact No: <%= user.contact_no %></li>
+                            <li>Product Used: <%= element.year_used %> Months </li>
+                        </ul>
+                        <div>
+                            <button  class="btn btn-success">Buy</button>
+                            <button class="btn btn-info">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
         </div>
-    </div>
-    
-</div>
-<div class="itemcontainer">
-    <div class="image_container">
-         <div>
-            <img src="https://livpure.com/cdn/shop/products/livpure-coolers-multicool-mini-desert-cooler-36534282420377.png?v=1680248951&width=713" width="300px" height="300px">
-            <p> Price : Rs 1000</p>
-         </div>
-       
-    </div>
-    <div class="inner_container">
-        <div style="text-align: center;">
-            <h2 style="text-align: center; font-size: 4rem;">Title</h3>
-            <div class="description_container">
-                <h3>Product Details</h3>
-                <p>Product : </p>
-                <ul>
-                    <li>Seller : Manas Sandip Jungade</li>
-                    <li>Contact No: 8855043347</li>
-                    <li>Product Used: 8 Months </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-</div>
-<div class="itemcontainer">
-    <div class="image_container">
-         <div>
-            <img src="https://livpure.com/cdn/shop/products/livpure-coolers-multicool-mini-desert-cooler-36534282420377.png?v=1680248951&width=713" width="300px" height="300px">
-            <p> Price : Rs 1000</p>
-         </div>
-       
-    </div>
-    <div class="inner_container">
-        <div style="text-align: center;">
-            <h2 style="text-align: center; font-size: 4rem;">Title</h3>
-            <div class="description_container">
-                <h3>Product Details</h3>
-                <p>Product : </p>
-                <ul>
-                    <li>Seller : Manas Sandip Jungade</li>
-                    <li>Contact No: 8855043347</li>
-                    <li>Product Used: 8 Months </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-</div>
+   <% }); %>         
+<% } %>
 
-</div>
 <%- include("partials/footer.ejs") %>
