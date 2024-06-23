@@ -1,8 +1,11 @@
 .notify_container{
     width: 100%;
     height: 100%;
+}
+.body{
     background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
 }
+
 .inner_notify_container{
     max-width: 100%;
     margin-left: 15%;
@@ -28,4 +31,7 @@ ul{
 }
 li{
     font-size: large;
+}
+.heading1{
+    align-items: center;
 }

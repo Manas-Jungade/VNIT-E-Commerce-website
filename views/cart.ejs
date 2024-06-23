@@ -1,0 +1,75 @@
+<%- include("partials/header.ejs") %>
+
+<% if (locals.cart_len==0) { %>
+    <div style="display: flex; justify-content: center;">
+        <img src="/images/cart.jpg">
+    </div>
+    
+ <% } else { %>
+   
+<div class="notify_container">
+    <div style="height: 50px;"></div> 
+    
+    <% carts.forEach(element => { %>
+        <div class="inner_notify_container">
+            <div class="notify_content" style="position: relative;">
+                <div class="image_container">
+                    <div>
+                       
+                       <img src=<%= element.image %> class="prod_img">
+                       <p> Price : Rs <%= element.price %></p>
+                    </div>
+                  
+               </div>
+                <div style="width: 50px;"></div>
+                <div class="inner_container">
+                    <div style="text-align: center;">
+                        <h2 style="text-align: center; font-size: 4rem;"><%= element.title %></h3>
+                        <div class="description_container">
+                            <h3>Product Details</h3>
+                            <p><%= element.description%> </p>
+                            <ul>
+                                <li>Seller Id : <%= element.student_id %></li>
+                                
+                            </ul>
+                            <div style="display: flex; justify-content: center;">
+                                <form action="/buy" method="post">
+                                    <!-- <input type="submit" onchange="this.form.submit()" name="product_id" value="Buy" class="btn btn-success"> -->
+                                    <button type="button" class="btn btn-success" onclick="openPopup('<%= element.prod_id%>')">Buy</button>
+                                    <div class="popup" id="<%=element.prod_id%>">
+                                        <img src="/images/tick.png">
+                                        <h2>Thank You!</h2>
+                                        <p>Your Order has been placed Successfully !</p>
+                                        <button type="submit" onclick="closePopup('<%= element.prod_id%>')"  name="product_id" value="<%= element.prod_id %>">OK</button>
+                                    </div>
+                                </form>
+                                
+                                 <div style="width: 10px;"></div>
+                                 <form action="/cartremove" method="post">
+                                    <button class="btn btn-danger" name="cart_id" value="<%= element.cart_id %> " type="submit">Remove</button>
+                                 </form>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            
+            </div>    
+        </div> 
+       
+    <% }); %>
+</div>
+<script>
+    
+    function openPopup(id) {
+        let popup=document.getElementById(id);
+        popup.classList.add("open-popup");
+    }
+    function closePopup(id) {
+        let popup=document.getElementById(id);
+        popup.classList.remove("open-popup");
+    }
+</script>   
+
+<%  } %>
+<%- include("partials/footer.ejs") %>
