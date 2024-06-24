@@ -5,7 +5,7 @@
             <div class="contact-comment-section">
                 <h3 style="align-items: center; font-size: xxx-large; font-weight: 400; ">Leave us a Message</h3>
                 <div id="form-messages"></div>
-                <form id="contact-form" method="post" action="" role="form">
+                <form id="contact-form" action="/sendmail" method="POST" role="form">
                     <div class="messages"></div>
                     <fieldset>
                         <div class="row pt-10">
@@ -66,8 +66,8 @@
                     
         
                         <div class="form-group mb-10 mt-20 pt-30" style="display: flex; justify-content: center; margin-top: 20px;">
-                         
-                            <input class="btn btn-success" type="button" name="submit" value="Submit Now" onclick="sendMail()">
+                            <button class="btn btn-success" type="submit">Submit Now</button>
+                           
                         </div>
                     </fieldset>
                 </form>
@@ -76,5 +76,6 @@
     </div>
     
 </div>
+
 
 <%- include("partials/footer.ejs") %>

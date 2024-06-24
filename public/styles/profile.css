@@ -1,0 +1,68 @@
+.profile{
+    display: grid;
+    width: 100%;
+    margin: 10px ;
+    margin-right: 10px !important;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+}
+.profilepic{
+    height: 100px;
+    background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+
+}
+.circleavatar{
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    margin: auto;
+    border: #333333;
+ 
+   
+
+}
+.profileinfo{
+    margin-top: 10px;
+    height: 100vh;
+    background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+    
+}
+.container_profile{
+    height: auto;
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    margin-right: 10px;
+}
+.myproducts , .logoutbtn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.myproducts{
+    padding-top: 10px;
+}
+.gzEMv8{
+    height: 30px;
+}
+#profilename{
+    color: rgb(98, 96, 96);
+    font-size: xx-large;
+    font-weight: 500;
+}
+.container_profile{
+    position: relative;
+}
+#profileh3{
+     position: absolute;
+     margin: 50px 0 0 50px;
+}
+.formcontainer{
+    padding-top: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+}

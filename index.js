@@ -9,6 +9,7 @@ import session from "express-session";
 import env from "dotenv";
 import multer from "multer";
 import { v2 as cloudinary } from 'cloudinary';
+import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
 
 const app = express();
 const port = 3000;
@@ -21,7 +22,7 @@ app.use(
       resave: false,
       saveUninitialized: true,
     })
-  );
+);
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,6 +55,8 @@ cloudinary.config({
 });
 var curr_user;
 var notification_item=[];
+var curr_email;
+
 
 app.get("/", (req, res) => {
     //Step 1 - Make the get route work and render the index.ejs file.
@@ -131,7 +134,7 @@ app.get("/index", async(req,res)=>{
     if(req.isAuthenticated()){
         const current_user_id=req.user.id;
         curr_user=req.user.id;
-       
+        curr_email=req.user.email;
         try {
         const notify = await countnotification();
         const result=await db.query("SELECT * FROM products INNER JOIN students ON student_id=students.id");
@@ -141,14 +144,32 @@ app.get("/index", async(req,res)=>{
                 prod.push(p);
             }
         })
-     
+        try {
+            const ans=await db.query("SELECT * FROM students WHERE id=$1",[curr_user]);
+            if(ans.rows[0].id===null || ans.rows[0].name===null|| ans.rows[0].contact_no===null || ans.rows[0].enroll_no===null){
+              
+                res.render("profile.ejs",{
+                    user:ans.rows[0],
+               
+                    
+                });
+            }
+            else{
+                res.render("index.ejs",{
+                    products:prod,
+                    length:notify.length
+                  
+        
+                });
 
-        res.render("index.ejs",{
-            products:prod,
-            length:notify.length
-          
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        
+        
 
-        });
+        
 
         } catch (error) {
             console.log(error);
@@ -159,6 +180,11 @@ app.get("/index", async(req,res)=>{
     else{
         res.redirect("/login");
     }
+})
+app.get("/search",async(req,res)=>{
+    const title=req.body["searchbar"];
+    console.log(title);
+
 })
 
 app.get("/cart",async (req,res)=>{
@@ -223,6 +249,93 @@ app.post("/register",async (req,res)=>{
         console.log(error);
     }
 })
+app.post("/submitprofilefinal",async(req,res)=>{
+   
+    const name=req.body.fname;
+    const email=curr_email;
+    const contact_no=req.body.phone;
+    
+ 
+
+
+    try {
+        await db.query("UPDATE students SET name=$1, contact_no=$2 WHERE email=$3",[name,contact_no,email]);
+        res.redirect("/index");
+    } catch (error) {
+        console.log(error);
+
+    }
+  
+
+
+})
+app.post("/submitprofile",async(req,res)=>{
+   
+    const name=req.body.fname;
+    const email=curr_email;
+    const contact_no=req.body.phone;
+    const enrollment=req.body.enrollment;
+    const id=req.body.id;
+    console.log(id);
+
+ 
+
+
+    try {
+        await db.query("UPDATE students SET name=$1, contact_no=$2, enroll_no=$3, id=$4 WHERE email=$5",[name,contact_no,enrollment,id,email]);
+        res.redirect("/index");
+    } catch (error) {
+        console.log(error);
+
+    }
+  
+
+
+})
+app.post("/sendmail",async (req,res)=>{
+    let templateParams={
+        fname: req.body.fname,
+        lname: req.body.lname,
+         //email: req.body.email,
+        number: req.body.phone,
+        Subject: req.body.inlineRadioOptions,
+        message: req.body.message
+    }
+    try {
+        await emailjs.send(
+          'service_9u334ob',
+          'template_oa0tbbj',
+          templateParams,
+          {
+            publicKey: 'r-fkXkw25qW2nJwtr',
+          },
+        );
+        console.log('SUCCESS!');
+      } catch (err) {
+        if (err instanceof EmailJSResponseStatus) {
+          console.log('EMAILJS FAILED...', err);
+          return;
+        }
+      
+        console.log('ERROR', err);
+      }
+    
+
+//     emailjs.send('service_9u334ob', 'template_oa0tbbj', templateParams,{publicKey:'r-fkXkw25qW2nJwtr'})
+//   .then(
+//     (response) => {
+//       console.log('SUCCESS!', response.status, response.text);
+//       alert("Email sent!!");
+
+//     },
+//     (err) => {
+//       console.log('FAILED...', err);
+//     },
+//   )
+//     res.redirect("/index");
+
+    
+})
 passport.use("local",new Strategy(async function verify(username,password, cb){
     try {
         const result=await db.query("SELECT * FROM students WHERE email = $1",[username]);
@@ -235,6 +348,7 @@ passport.use("local",new Strategy(async function verify(username,password, cb){
                 }
                 else{
                     if(valid){
+                        curr_email=username;
                         return cb(null,user);
                     }
                     else{
@@ -261,10 +375,12 @@ async (accessToken,refreshToken,profile,cb)=>{
         console.log(profile);
         const result=await db.query("SELECT * FROM students WHERE email = $1",[profile.email]);
         if(result.rows.length===0){
-            const newUser=await db.query("INSERT INTO students (id, name, email, contact_no, enroll_no, password) VALUES ($1, $2, $3, $4, $5, $6)",["12345","Manas",profile.email,"8855043340","BT22CSE123","google"]);
+            curr_email=profile.email;
+            const newUser=await db.query("INSERT INTO students (id, email, password,profilepic) VALUES ($1, $2, $3,$4)",["xyz",profile.email,"google",profile.picture]);
             return cb(null,newUser.rows[0]);
         }
-        else{
+        else{    
+            curr_email=profile.email;
             return cb(null,result.rows[0]);
         }
         
@@ -309,6 +425,20 @@ app.post("/sell",upload.single("pic"),async(req,res)=>{
     }
 
 
+    
+
+})
+app.get("/profile",async(req,res)=>{
+    try {
+        const result=await db.query("SELECT * FROM students WHERE id=$1",[curr_user]);
+        res.render("profilefinal.ejs",{
+            user:result.rows[0],
+            length:notification_item.length
+        });
+    } catch (error) {
+        console.log(error);
+
+    }
     
 
 })

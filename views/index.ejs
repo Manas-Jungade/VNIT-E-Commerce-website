@@ -5,8 +5,8 @@
     
       <span class="fs-4">All Items</span>
     </a>
-    <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
-      <input type="search" class="form-control" placeholder="Search..." aria-label="Search" >
+    <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search" method="get" action="/search">
+      <input type="search" class="form-control" placeholder="Search..." aria-label="Search"  name="searchbar" >
     </form>
 </div>
 <% if (locals.products) { %>

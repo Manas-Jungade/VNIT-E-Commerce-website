@@ -1,0 +1,108 @@
+<%- include("partials/header.ejs") %>
+
+    <div class="profile">
+        <div class="profilediv">
+            <div class="profilepic">
+               <div>
+                <img class="circleavatar" <% if (locals.user && locals.user.profilepic!=null) { %>
+                    src=<%= locals.user.profilepic %>
+                   <% }else{ %>
+                     src="https://img.freepik.com/premium-photo/graphic-designer-digital-avatar-generative-ai_934475-9292.jpg"
+                     <% } %>  
+                     alt="your image" />
+               </div>
+                    
+               
+                <p id="profilename">
+                   
+                        <%= locals.user.name %>
+                   
+                </p>
+               
+                
+            </div>
+            <div class="profileinfo">
+                <div class="myproducts">
+                    <img class="gzEMv8" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDI0IDE4Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC04LjY5NCAtMTEpIj48ZWxsaXBzZSBjeD0iMjAuNTU3IiBjeT0iMjAiIHJ4PSIyMC41NTciIHJ5PSIyMCIvPjxwYXRoIGZpbGw9IiMyODc0RjEiIGQ9Ik05IDExdjE3LjEwOGMwIC40OTMuNDEuODkyLjkxOC44OTJoNC45M3YtNS4yNTdoLTMuMDMzbDQuOTEyLTQuNzcgNC45NzIgNC44M2gtMy4wMzVWMjloMTIuNDE3Yy41MDcgMCAuOTE4LS40LjkxOC0uODkyVjExSDl6Ii8+PC9nPjwvc3ZnPg==">
+                    <p>My Products</p>
+                </div>
+                <hr>
+                <a href="/logout">
+                    <div class="logoutbtn">
+                        <svg width="30" height="30" class="" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#2874F0" stroke-width="0.3" stroke="#2874F0" d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"></path></svg>
+                        <p>Logout</p>
+                    </div>
+                </a>
+                
+                <hr>
+            </div>
+        </div>
+        <div class="container_profile" >
+            <h3 id="profileh3">Personal Information</h3>
+            <div class="formcontainer">
+                <form id="contact-form" action="/submitprofilefinal" method="POST" role="form">
+                   
+                    <fieldset>
+                        <div class="row pt-10">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="form_name" >Name *</label>
+                                    <input id="form_name" type="text" name="fname" class="form-control" placeholder="Please enter your name *" required="required" data-error="Firstname is required." fdprocessedid="myszjs" value="<%= locals.user.name %>">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                          
+                        </div>
+                        <div class="row pt-10">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="form_email">Email *</label>
+                                    <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required." fdprocessedid="ack9zrp" value="<%= locals.user.email %>" disabled>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="form_phone">Contact Number*</label>
+                                    <input id="form_phone" type="tel" name="phone" class="form-control" placeholder="Please enter your Mobile no *" fdprocessedid="ih8l2" value="<%= locals.user.contact_no %>">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pt-10">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="form_enrollment">Enrollment Number *</label>
+                                    <input id="form_enrollment" type="text" name="enrollment" class="form-control" placeholder="Please enter your Enrollment No *" required="required" data-error="Valid Enrollment is required." fdprocessedid="ack9zrp" value="<%= locals.user.enroll_no %>" disabled>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="form_id">Id*</label>
+                                    <input id="form_id" type="text" name="id" class="form-control" placeholder="Please enter your id *" fdprocessedid="ih8l2" value="<%=  locals.user.id %>" disabled>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                        </div>
+                      
+                    
+                    
+        
+                        <div class="form-group mb-10 mt-20 pt-30" style="display: flex; justify-content: center; margin-top: 20px;">
+                            <button class="btn btn-success" type="submit" onclick="handler()">Submit Now</button>
+                           
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    <script>
+        function handler() {
+            alert("Profile Updated !!");
+
+        }
+    </script>
+<%- include("partials/footer.ejs") %>
