@@ -35,3 +35,12 @@ li{
 .heading1{
     align-items: center;
 }
+.notificationbtn{
+    display: flex;justify-content: end; align-items: last baseline; width: 100%;
+}
+@media(width<=780px){
+     .notify_content{
+        display: flex;
+        flex-wrap: wrap;
+     }
+}

@@ -16,17 +16,18 @@
             <div class="notify_content">
                 <img src=<%= element.image %> width="200px" style="height: auto;" >
                 <div style="width: 50px;"></div>
-                <div style="text-align: start;">
+                <div style="text-align: start; width: 1000px;">
                     <h3>Name: <%= element.name  %> </h3>
                     <h3>Contact No: <%= element.contact_no %></h3>
                     <h3>Id : <%=  element.id %></h3>
                     <p>Hey! I want to buy your <%= element.title %>, <br> <%= element.description %> <br> Lets Meet</p>
-                    <div class="btn" style="display: flex;justify-content: end;">
-                        <form action="/marked" method="post">
-                          
-                            <button type="submit" class="btn btn-danger" name="notify_id" value="<%= element.notify_id %>">Mark As Read</button>
-                        </form>
-                    </div>
+                   
+                </div>
+                <div class="notificationbtn">
+                    <form action="/marked" method="post">
+                      
+                        <button type="submit" class="btn btn-danger" name="notify_id" value="<%= element.notify_id %>">Mark As Read</button>
+                    </form>
                 </div>
             </div>    
         </div> 
